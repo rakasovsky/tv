@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Netclicks - все о сериалах</title>
+
+</head>
+
+<body>
+<div class="left-menu">
+    <div class="hamburger active">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="left-menu__list">
+        <li>
+            <a href="#" id="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <span>ПОИСК</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown">
+                <i class="fa fa-trophy" aria-hidden="true"></i>
+                <span>РЕЙТИНГ</span>
+            </a>
+            <ul class="dropdown-list">
+                <li>
+                    <a href="#" id="top-rated">
+                        <span>Топ сериалы</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="popular">
+                        <span>Популярные</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown">
+                <i class="fa fa-tv" aria-hidden="true"></i>
+                <span>НОВЫЕ ЭПИЗОДЫ</span>
+            </a>
+            <ul class="dropdown-list">
+                <li>
+                    <a href="#" id="today">
+                        <span>Сегодня</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="week">
+                        <span>На неделю</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<header>
+    <div class="container header-flex">
+        <hgroup class="title-wrapper">
+            <h1 class="title">Netclicks</h1>
+            <h2 class="subtitle">все о сериалах</h2>
+        </hgroup>
+
+        <section class="search">
+            <form class="search__form">
+                <h2 class="search__form-head">Поиск</h2>
+                <label class="search__form-block">
+                    <input type="text" class="search__form-input" id="searchText"
+                           placeholder="Введи название...">
+                </label>
+            </form>
+        </section>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="tv-shows">
+            <h3 class="tv-shows__head">Результат поиска</h3>
+            <ul class="tv-shows__list">
+
+            </ul>
+        </section>
+
+    </div>
+</main>
+
+<div class="modal hide">
+    <div class="modal__content">
+            <div class="poster__wrapper">
+                <div class="poster">
+                    <div class="image__content">
+                        <img class="tv-card__img"
+                             src="img/no-poster.jpg"
+                             alt="Название шоу">
+                    </div>
+
+                </div>
+            </div>
+
+            <article class="modal__description">
+                <h2 class="modal__title">
+                    Название шоу
+                </h2>
+
+                <section class="genres">
+                    <h3>Жанр:</h3>
+                    <ul class="genres-list">
+                        <li>Документальный</li>
+                        <li>Мелодрама</li>
+                        <li>Мультфильм для взрослых</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Рейтинг</h3>
+                    <span class="rating">10</span>
+                </section>
+
+
+                <section class="header__info">
+
+
+                    <h3 dir="auto">Обзор: </h3>
+                    <div class="overview" dir="auto">
+
+                        <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis ut
+                            vero, commodi quaerat quasi animi nam corporis hic debitis nulla, ullam non. Quia cupiditate
+                            quo obcaecati hic. Molestiae, numquam natus!</p>
+
+                    </div>
+                    <p class="modal__link-wrapper">
+                        <a class="modal__link" href="https://google.com" target="_blanc">Оффициальная страница</a>
+                    </p>
+                </section>
+            </article>
+            <div class="cross">
+                <span></span>
+                <span></span>
+            </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="preloader">
+    <div class="preloader-wrapper">
+        <div class="preloader-one"></div>
+        <div class="preloader-one"></div>
+        <div class="preloader-one"></div>
+        <div class="preloader-one"></div>
+        <div class="preloader-two"></div>
+        <div class="preloader-three"></div>
+    </div>
+</div>
+    <script>
+    // сокращаем путь до картинок
+  const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/';
+  const API_KEY = '35631bbcf4480e586759cd9b1b11f381';
+
+  const leftMenu = document.querySelector('.left-menu');
+  const hamburger = document.querySelector('.hamburger');
+
+
+  hamburger.addEventListener('click', () => {
+      leftMenu.classList.toggle('openMenu');
+      hamburger.classList.toggle('open');
+  });
+
+  document.body.addEventListener('click', event => {
+      if (!event.target.closest('.left-menu')){
+          leftMenu.classList.remove('openMenu');
+          hamburger.classList.remove('open');
+      }
+  } );
+
+
+  leftMenu.addEventListener('click', event => {
+      const target = event.target;
+      const dropdown = target.closest('.dropdown');
+      if (dropdown) {
+          dropdown.classList.toggle('active');
+          leftMenu.classList.add('openMenu');
+          hamburger.classList.add('open');
+      }
+  });
+
+
+
+// Модалка
+
+const tvShowList = document.querySelector('.tv-shows__list');
+const  modal = document.querySelector('.modal');
+
+
+tvShowList.addEventListener('click', event => {
+
+    //сохраняем позицию после возвращения с модального окна
+    event.preventDefault();
+
+    const target = event.target;
+    const card = target.closest('.tv-card');
+
+    if(card) {
+        //запрещаем прокрутку экрана во время открытого модального
+        document.body.style.overflow = 'hidden';
+        modal.classList.remove('hide');
+    }
+})
+
+
+//закрытие модалки
+
+modal.addEventListener('click', event => {
+    if(event.target.closest('.cross') ||
+       event.target.classList.contains('modal')){
+        document.body.style.overflow = '';
+        modal.classList.add('hide');
+    }
+} )
+
+
+// замена атрибутов картинки c деструктуризацией
+
+const changeImage = event => {
+    const card = event.target.closest('.tv-shows__item');
+
+    if (card) {
+        const img = card.querySelector('.tv-card__img');
+        if(img.dataset.backdrop) {
+            // деструктуризация
+            [img.src, img.dataset.backdrop] = [img.dataset.backdrop, img.src];
+        }
+    }
+};
+
+tvShowList.addEventListener('mouseover', changeImage);
+tvShowList.addEventListener('mouseout', changeImage);
+
+
+
+const DBService = class {
+    getData = async (url) => {
+        const res = await fetch(url);
+        if(res.ok) {
+            return res.json();
+        } else {
+            throw new Error(`Не удалось получить данные по адресу ${url}`)
+        }
+    }
+
+    getTestData = () => {
+        return this.getData('test.json')
+    }
+}
+const renderCard = response => {
+
+    response.results.forEach(item => {
+
+        // извлекаем свойства объкта item и переименование свойст / деструктуризация
+
+        const {
+              backdrop_path: backdrop,
+              name: title,
+              poster_path: poster,
+              vote_average: vote
+             } = item;
+
+        // проверка наличие содержания информации
+        const posterImg = poster ? IMG_URL + poster : 'img/no-poster.jpg' ;
+        const backdropImg =  backdrop ? IMG_URL + backdrop : 'img/no-poster.jpg' ;
+        // const voteElem = {
+        //     if(vote = 0) {
+        //         vote.classList.add('hide');
+        //     }
+        // }
+        const voteElem  = vote ? vote : '.tv-card__vote'.classList.add('hide') ;
+
+
+        console.log(item)
+
+        // создание нового элемента
+        const card = document.createElement('li');
+        // добавление класса
+        // через свойство className card.className = 'tv-shows__item';
+        card.classList.add('tv-shows__item');
+        // вставка шаблона в ``
+        card.innerHTML = `
+         <a href="#" class="tv-card">
+        <span class="tv-card__vote">${voteElem}</span>
+            <img class="tv-card__img"
+                src="${posterImg}"
+                data-backdrop="${backdropImg}"
+                alt="${title}">
+            <h4 class="tv-card__head">${title}</h4>
+        </a>
+        `;
+        //добавление элемента на страницу (с помошью append карты появляются в конце блока)
+        // tvShowList.insertAdjacentElement('afterbegin', card); insertAdjacentElement позволяет добавлять элементы более гибко
+        tvShowList.append(card);
+        console.log(card)
+    })
+    }
+
+
+    new DBService().getTestData().then(renderCard);
+
+    </script>
+  </body>
+</html>
