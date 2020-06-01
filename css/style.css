@@ -428,6 +428,7 @@ main {
 
 .search__form {
     padding-top: 15px;
+    position: relative;
 }
 
 .search__form-block {
@@ -452,6 +453,14 @@ main {
 
 .search__form-input:focus {
     border-top: 2px solid #ccc;
+}
+
+.search__form button {
+    background: none;
+    border: none;
+    position: absolute;
+    cursor: pointer;
+    bottom: 8px;
 }
 
 .tv-shows__head {
