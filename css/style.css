@@ -461,6 +461,7 @@ main {
     position: absolute;
     cursor: pointer;
     bottom: 8px;
+    right: -5px;
 }
 
 .tv-shows__head {
@@ -689,6 +690,14 @@ main {
     transition: all ease .5s;
     border-radius: 10px;
 
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+.pagination li a {
+    padding:25px;
 }
 
 @media (max-width: 1024px) {

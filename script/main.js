@@ -16,10 +16,10 @@ const tvShows = document.querySelector('.tv-shows'),
       description = document.querySelector('.description'),
       modalLink = document.querySelector('.modal__link'),
       dropdown = document.querySelectorAll('.dropdown'),
-      tvShowsHead = document.querySelector('.tv-shows__head');
-      posterWrapper = document.querySelector('.poster__wrapper');
-      modalContent = document.querySelector('.modal__content');
-
+      tvShowsHead = document.querySelector('.tv-shows__head'),
+      posterWrapper = document.querySelector('.poster__wrapper'),
+      modalContent = document.querySelector('.modal__content'),
+      pagination = document.querySelector('.pagination');
 
 
 // Прелоудер
@@ -45,7 +45,7 @@ const closeDropdown = () => {
     dropdown.forEach(item => {
     //    item.classList.remove('active');
     })
-}
+};
 
 
 hamburger.addEventListener('click', () => {
@@ -73,16 +73,21 @@ leftMenu.addEventListener('click', event => {
         hamburger.classList.add('open');
     }
     if (target.closest('#top-rated')){
-        new DBService().getTopRated().then(renderCard);
+        dbService.getTopRated().then((response) =>  renderCard(response, target));
     }
     if (target.closest('#popular')){
-       new DBService().getPopular().then(renderCard);
+        dbService.getPopular().then((response) =>  renderCard(response, target));
     }
     if (target.closest('#today')){
-      new DBService().getToday().then(renderCard)
+        dbService.getToday().then((response) =>  renderCard(response, target));
     }
-    if (target.closest('#week')){
-        new DBService().getWeek().then(renderCard)
+    if (target.closest('#week')){(
+        dbService.getWeek().then((response) =>  renderCard(response, target)));
+    }
+    if (target.closest('#search')){
+       tvShowList.textContent = '';
+       tvShowsHead.textContent = '';
+
     }
    
 });
@@ -95,6 +100,9 @@ leftMenu.addEventListener('click', event => {
 // открытие модального окна
 
 tvShowList.addEventListener('click', event => {
+
+
+    debugger;
 
     //сохраняем позицию после возвращения с модального окна 
     event.preventDefault();
@@ -259,6 +267,7 @@ class DBService {
     }
 
     getData = async (url) => {
+    
         const res = await fetch(url);
         if(res.ok) {
             return res.json();
@@ -279,8 +288,15 @@ class DBService {
 
     // результаты поиска
     getSearchResult = data => {
+        this.temp = this.SERVER + '/search/tv?api_key=' + this.API_KEY +
+        '&language=ru-RU&query=' + data;
         return this.getData(this.SERVER + '/search/tv?api_key=' + this.API_KEY +
         '&language=ru-RU&query=' + data)
+    }
+
+
+    getNextPage = page => {
+        return this.getData(this.temp + '&page=' + page);
     }
 
     // getSearchResult = (data) => {
@@ -298,10 +314,12 @@ class DBService {
     getWeek = () => this.getData(this.SERVER + '/tv/on_the_air?api_key=' + this.API_KEY + '&language=ru-RU')
 }
 
+const dbService = new DBService();
+
 console.log(new DBService().getSearchResult('глухарь'));
 
 
-const renderCard = response => {
+const renderCard = (response, target) => {
     // Очищаем результаты прошлых поисковых запросов
     tvShowList.textContent = '';
 
@@ -313,7 +331,7 @@ const renderCard = response => {
         return;
     } 
 
-    tvShowsHead.textContent = 'Результат поиска';
+    tvShowsHead.textContent = target ? target.textContent : 'Результат поиска';
     tvShowsHead.style.cssText = ''
 
     response.results.forEach(item => {
@@ -361,7 +379,28 @@ const renderCard = response => {
         // tvShowList.insertAdjacentElement('afterbegin', card); insertAdjacentElement позволяет добавлять элементы более гибко
         tvShowList.append(card);
     });
+
+    // Создание пагинации, проверка кол-ва страниц
+
+    pagination.textContent = '';
+
+    if(!target && response.total_pages > 1 ){
+        for (let i = 1; i <= response.total_pages; i++) {
+            pagination.innerHTML += `<li><a href="#" class="pages">${i}</a></li>`
+        }
+    } 
 };
+
+
+pagination.addEventListener('click', event => {
+    event.preventDefault();
+    const target = event.target;
+
+    if (target.classList.contains('pages')) {
+        tvShows.append(loading);
+        dbService.getNextPage(target.textContent).then(renderCard);
+    }
+});
 
 
 // Поиск
@@ -370,7 +409,7 @@ searchForm.addEventListener('submit', event => {
     // использовать trim() для очистки от пробелов в начале и конце строки
     const value = searchFormInput.value.trim();
     if(value) {
-        tvShows.append(loading);
+        // tvShows.append(loading);
         new DBService().getSearchResult(value).then(renderCard);
     }
     searchFormInput.value = '';
