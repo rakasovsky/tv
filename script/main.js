@@ -147,7 +147,7 @@ tvShowList.addEventListener('click', event => {
         //     };
         // })
 
-        new DBService().getTvShow(card.id)
+        dbService.getTvShow(card.id)
 
         .then(({
             poster_path: posterPath,
@@ -290,8 +290,7 @@ class DBService {
     getSearchResult = data => {
         this.temp = this.SERVER + '/search/tv?api_key=' + this.API_KEY +
         '&language=ru-RU&query=' + data;
-        return this.getData(this.SERVER + '/search/tv?api_key=' + this.API_KEY +
-        '&language=ru-RU&query=' + data)
+        return this.getData(this.temp)
     }
 
 
@@ -316,7 +315,7 @@ class DBService {
 
 const dbService = new DBService();
 
-console.log(new DBService().getSearchResult('глухарь'));
+console.log(dbService.getSearchResult('глухарь'));
 
 
 const renderCard = (response, target) => {
@@ -410,7 +409,7 @@ searchForm.addEventListener('submit', event => {
     const value = searchFormInput.value.trim();
     if(value) {
         // tvShows.append(loading);
-        new DBService().getSearchResult(value).then(renderCard);
+        dbService.getSearchResult(value).then(renderCard);
     }
     searchFormInput.value = '';
     
