@@ -6,7 +6,7 @@ const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2/';
 const leftMenu = document.querySelector('.left-menu');
 const hamburger = document.querySelector('.hamburger');
 const tvShowList = document.querySelector('.tv-shows__list');
-const  modal = document.querySelector('.modal');
+const modal = document.querySelector('.modal');
 
 const tvShows = document.querySelector('.tv-shows'),
       tvCardImg = document.querySelector('.tv-card__img'),
@@ -91,11 +91,6 @@ leftMenu.addEventListener('click', event => {
     }
    
 });
-
-
-
-
-
 
 // открытие модального окна
 
@@ -197,8 +192,6 @@ tvShowList.addEventListener('click', event => {
         
 })
 
-
-
 //закрытие модалки 
 
 modal.addEventListener('click', event => {
@@ -208,7 +201,6 @@ modal.addEventListener('click', event => {
         modal.classList.add('hide');
     }
 } ) 
-
 
 // замена атрибутов картинки
 
@@ -256,7 +248,6 @@ const changeImage = event => {
 
 tvShowList.addEventListener('mouseover', changeImage);
 tvShowList.addEventListener('mouseout', changeImage);
-
 
 
 class DBService {
